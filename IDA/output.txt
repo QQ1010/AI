@@ -1,4 +1,4 @@
-By IDS
-Total run time =  0.026000  seconds
+By IDA*
+Total run time =  0.001000  seconds
 An optimal solution has  4  moves:
 5L 6U 7L 8U 

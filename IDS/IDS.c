@@ -718,7 +718,7 @@ int IDS(Table table, FILE *output) {                     // 做 Interative deepe
 
 
 int main() {
-    char filename[] = "nosolution.txt";
+    char filename[] = "input.txt";
     Table table;
     FILE *output;
     output = fopen("output.txt","w+");

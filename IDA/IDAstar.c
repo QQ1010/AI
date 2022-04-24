@@ -681,7 +681,7 @@ int Manhattan_distance(Table table) {
 // IDA*的DFS
 bool IDADFS(Table table, int gx, int flimit, int *next_flimit, Node moves[],int move_idx, Item close_set[][50],int close_idx,int *steps) {
     int hx = Manhattan_distance(table);
-    if(hx + gx > flimit && hx + gx < *next_flimit) {
+    if(hx + gx < *next_flimit && hx + gx != flimit) {
         *next_flimit = hx + gx;
     }
     if(hx == 0) {
@@ -694,7 +694,6 @@ bool IDADFS(Table table, int gx, int flimit, int *next_flimit, Node moves[],int 
     Table next_table = table;
     int num;
     char direct;
-    
     for(int i = 0 ; i < table.node_array_length ; i++) {
         num = table.can_move_node[i].num;
         direct = table.can_move_node[i].direction;
@@ -739,9 +738,13 @@ int IDAstar(Table table,FILE *output) {
             found = false;
             break;
         }
-        printf("f_limit = %d\n",f_limit);
+        else if(next_flimit == 99) {
+            found = false;
+            break;
+        }
+        // printf("f_limit = %d\n",f_limit);
         f_limit = next_flimit;
-        printf("next_flimit = %d\n",next_flimit);
+        // printf("next_flimit = %d\n",next_flimit);
     }
     end = clock();
     if(found) {
@@ -760,13 +763,13 @@ int IDAstar(Table table,FILE *output) {
         return total_step;
     }
     else {
-        printf("no solution\n");
+        // printf("no solution\n");
         return 0;
     }
 }
 
-int main(int argc, char *argv[]) {
-    char filename[] = "nosolution.txt";
+int main() {
+    char filename[] = "input.txt";
     FILE *output;
     output = fopen("output.txt","w+");
     Table table;
@@ -774,6 +777,8 @@ int main(int argc, char *argv[]) {
     int IDA_step = 0;
     IDA_step = IDAstar(table,output);
     if(IDA_step == 0) {
+        fprintf(output,"%s\n","By IDA*");
+        fprintf(output,"%s\n","no solution");
         printf("By IDA*\n");
         printf("no solution\n");
     }
